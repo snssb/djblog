@@ -1,4 +1,4 @@
-https://djangorookieblog.site/
+https://djangorookieblog.site/ - запущен и настроен на ubuntu с nginx, gunicorn, postgresql, celery, redis
 
 Небольшой сайт-блог с рядом функций, включая регистрацию и авторизацию через GitHub или по Jwt. 
 Сайт имеет список статей по категориям, внутренюю сортировку, а также возможность добавления, 
