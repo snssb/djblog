@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sidebar %}
+
+{% block title %}{{ post.title }} :: {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<section class="single-blog-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="border-top">
+
+                        <div class="blog-area">
+                            <div class="blog-area-part">
+                                <div class="post-title-d"><h2>{{ post.title }}</h2></div>
+                                {% if user.is_authenticated and user.id == post.author_l_id %}
+                                <a href="{% url 'update_post' post.slug %}">
+                                    <div class="edit-post-button">
+                                    Редактировать
+                                    </div>
+                                </a>
+                                {% endif %}
+                                <div class="single-content">
+
+                                    {% if post.photo %}
+                                    <img src="{{ post.photo.url }}" alt="{{ post.title }}"
+                                         class="mr-3">
+                                    {% endif %}
+
+                                    {{ post.content|safe }}
+                                </div>
+                            </div>
+                            <hr>
+
+                            <form action="{% url 'like_post' post.pk %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" name="post_id" value="{{ post.id }}" id="anchor" class="btn btn-primary">Лайк</button>
+                                - {{ total_likes }} Лайк
+                            </form>
+
+                            <hr>
+                            <br><br>
+
+                        {% if post.author_l.profile.id %}
+
+                            <div class="post_author_profile mb-3 card_e">
+                                <div class="row g-0">
+                                    <div class="col-md-2">
+                                        <a href="{% url 'show_profile_page' post.author_l.profile.id %}">{% if post.author_l.profile.profile_pic %}
+                                        <img src="{{ post.author_l.profile.profile_pic.url }}" class="card-img post_author_profile_pic">
+                                        {% else %}
+                                            {% if post.author_l.profile.user_gender == 'F' %}
+                                                <img src="{% static 'img/dprofilew.jpg' %}" class="card-img post_author_profile_pic">
+                                            {% else %}
+                                                <img src="{% static 'img/dprofilem.jpg' %}" class="card-img post_author_profile_pic">
+                                            {% endif %}
+                                        {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                            {{ post.author.profile.id }}
+
+
+                                                <a href="{% url 'show_profile_page' post.author_l.profile.id %}" class="post_author_name">{{ post.author_l.first_name}}
+                                                    {{ post.author_l.last_name }}</a>
+                                            </h5>
+                                            <p class="card-text">
+
+                                                <a href="{% url 'show_profile_page' post.author_l.profile.id %}" class="post_author_links">Профиль</a> |
+                                                <!-- post.author.profile.id - указали чей профиль -->
+                                                {% if post.author_l.profile.website_url %}
+                                                <a href="{{ post.author_l.profile.website_url }}" class="post_author_links">Сайт</a>
+                                                {% endif %}
+
+                                                {% if post.author_l.profile.vkontakte_url %}
+                                                | <a href="{{ post.author_l.profile.vkontakte_url }}" class="post_author_links">Вконтакте</a>
+                                                {% endif %}
+
+                                                {% if post.author_l.profile.twitter_url %}
+                                                | <a href="{{ post.author_l.profile.twitter_url }}" class="post_author_links">Твиттер</a>
+                                                {% endif %}
+
+                                                {% if post.author_l.profile.instagram_url %}
+                                                | <a href="{{ post.author_l.profile.instagram_url }}" class="post_author_links">Инстаграм</a>
+                                                {% endif %}
+
+                                                {% if post.author_l.profile.instagram_url %}
+                                                <a href="{{ post.author_l.profile.pinterest_url }}" class="post_author_links">Пинтерест</a>
+                                                {% endif %}
+                                            </p>
+                                            <p class="post_author_bio">
+                                                {{ post.author_l.profile.bio|truncatewords:25 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <pre class="post_author_name"> Автор: {{ post.author_l }}</pre>
+                            {% else %}
+                            <img src="{% static 'img/dprofilem.jpg' %}" class="card-img post_author_profile_pic">
+                            <pre class="post_author_name">     Автор: {{ post.author }}</pre>
+                            {% endif %}
+                            <br><br>
+                            <h2>Комментарии</h2>
+
+                            {% if not post.comments.all %}
+                                Нет комментариев :(<a href="{% url 'add_comment' post.slug %}">Оставьте комментарий :)</a>
+                            {% else %}
+                                <hr>
+                                {% for comment in post.comments.all %}
+                                    <br>
+                                    <strong>
+                                        {{ comment.name }} -
+                                        {{ comment.date_added }}
+                                    </strong>
+                                    <br>
+                                    {{ comment.body }}
+                                    <br><br>
+                                    <hr>
+                                {% endfor %}
+                            <br><br>
+
+                            <a href="{% url 'add_comment' post.slug %}">Оставить комментарий</a>
+
+                        {% endif %}
+
+
+
+
+                    </div>
+
+                    </div>
+                    <div class="col-md-4">
+
+                        <br><br><br>
+                        <div class="post-info">
+                                        <span>Категория:
+                                            <a href="{{ post.category.get_absolute_url }}">
+                                                {{ post.category }}
+                                        </a></span>
+                            <br>
+                            {% if post.tags.exists %}
+                            <span>
+                                            Теги:
+                                            {% for tag in post.tags.all %}
+                                            <a href="{{ tag.get_absolute_url }}">
+                                                {{ tag.title }}</a>
+                                            {% endfor %}
+                                        </span>
+                            <br>
+                            {% endif %}
+                            <span>Просмотры: {{ post.views }}</span>
+                        </div>
+
+                        <div class="newsletter">
+                            <h2 class="sidebar-title">Поиск</h2>
+                            <form action="{% url 'search' %}" method="get">
+                                <input type="text" name="s"
+                                       placeholder="Поиск...">
+                                <br><br>
+                                <input type="submit" value="Поиск">
+                            </form>
+                        </div>
+
+                        {% get_popular %}
+
+                        {% get_tags %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+
+{% endblock %}

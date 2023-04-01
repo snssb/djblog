@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} :: {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<div class="user_profile_page">
+    <h1 class="t_center">Профиль пользователя {{ page_user.user.username }}</h1>
+    <br>
+
+    <div class="card mb-3 card-e">
+        <div class="row g-0 post_author_profile">
+            <div class="col-mdpr">
+                {% if page_user.profile_pic %}
+                <img src="{{ page_user.profile_pic.url }}" class="card-img post_author_profile_pic">
+                {% else %}
+                {% if page_user.user_gender %}
+                <img src="{% static 'img/dprofilew.jpg' %}" class="card-img post_author_profile_pic">
+                {% else %}
+                <img src="{% static 'img/dprofilem.jpg' %}" class="card-img post_author_profile_pic">
+                {% endif %}
+                {% endif %}
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                    <h5 class="card-title post_author_name">
+                        {{ page_user.user.first_name}}
+                        {{ page_user.user.last_name }}
+                    </h5>
+                    <p class="card-text">
+                        <!-- сократить -->
+                        {% if page_user.website_url %}
+                        <a href="{{ page_user.website_url }}">Сайт</a>
+                        {% endif %}
+
+                        {% if page_user.vkontakte_url %}
+                        | <a href="{{ page_user.vkontakte_url }}">Вконтакте</a>
+                        {% endif %}
+
+                        {% if page_user.twitter_url %}
+                        | <a href="{{ page_user.twitter_url }}">Твиттер</a>
+                        {% endif %}
+
+                        {% if page_user.instagram_url %}
+                        | <a href="{{ page_user.instagram_url }}">Инстаграм</a>
+                        {% endif %}
+
+                        {% if page_user.instagram_url %}
+                        <a href="{{ page_user.pinterest_url }}">Пинтерест</a>
+                        {% endif %}
+                    </p>
+                    <p class="card-text post_author_bio">
+                        {{ page_user.bio }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Создание профиля
+{% endblock title %} 
+
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock sidebar %}
+
+
+{% block content %}
+
+
+<div class="edit_profile_page">
+{% if user.is_authenticated %}
+
+    <h1>Создать профиль</h1>
+<div class="form-group">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+
+        <div class="form-error">{{ form.non_field_errors }}</div>
+
+        {% for f in form %}
+        <p><label class="form-label-e" for="{{ f.id_for_label }}">{{ f.label }}: </label>{{f}}</p>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary btn-block">Создать профиль</button>
+    </form>
+</div>
+{% else %}
+<div class="netprav">
+    Авторизируйтесь прежде чем просматривать данную страницу
+</div>
+{% endif %}
+</div>
+
+{% endblock %}
+
+

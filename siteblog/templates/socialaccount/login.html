@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load socialaccount static i18n %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'emptyfixes.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex align-items-center justify-content-center" style="height: 55vh;">
+    <div class="text-center">
+        <h2>Войти используя GitHub</h2>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">{% trans "Continue" %}</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

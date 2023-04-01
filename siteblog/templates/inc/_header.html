@@ -1,0 +1,70 @@
+{% load menu %}
+<header class="header">
+        <div class="row">
+
+
+    <div class="container">
+<!--        <div class="row">-->
+<!--            <div class="col-md-2 marleft">-->
+<!--                <div class="logo">-->
+<!--                    <h2><a href="{% url 'home' %}">бЕСТ-бЛОГ</a></h2>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="navbar navbarf">
+
+                <div class="logo">
+                    <h2><a href="{% url 'home' %}">бЕСТ-бЛОГ</a></h2>
+                </div>
+
+                {% show_menu item_selected=item_selected %}
+
+                {% if request.user.is_authenticated %}
+                <a class="adpo_item" href="{% url 'add_post' %}">
+                    <div class="adpo_item_d">
+                        Создать пост
+                    </div>
+                </a>
+                {% endif %}
+
+              <form class="d-flex" action="{% url 'search' %}" method="get">
+                <input class="form-control me-1 ms-3" type="search" {% if search_query %}value="{{ search_query }}" {% else %}placeholder="Поиск..."{% endif %}
+                       name="s" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+              </form>
+
+                <div class="someside">
+
+                <span class="navbar-text">
+                    {% if request.user.is_authenticated %}
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle lgpl_item" href="#" id="navbarDropdown" role="button"
+                     data-bs-toggle="dropdown"
+                     aria-expanded="false">
+                    {{ user.username }}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                      {% if user.profile.id %}
+                        <li><a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">Открыть профиль</a></li>
+                        <li><a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Настройки профиля</a></li>
+
+                      {% else %}
+                        <li><a class="dropdown-item" href="{% url 'create_profile_page' %}">Создать профиль</a></li>
+                      {% endif %}
+
+                  <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Настройки пользователя</a></li>
+                  <li><a class="dropdown-item" href="{% url 'logout' %}">Выход</a></li>
+
+                  </ul>
+                </li>
+                    {% else %}
+                    <a href="{% url 'register' %}">Регистрация</a> |
+                    <a href="{% url 'login' %}">Вход</a>
+                    {% endif %}
+                </span>
+                </div>
+                </div>
+        </div>
+    </div>
+</header>

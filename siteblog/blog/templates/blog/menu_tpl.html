@@ -1,0 +1,16 @@
+<div class="{{ menu_class }}">
+    <ul>
+        {% if item_selected == 'm' %}
+        <li><a class="selected header_item" href="{% url 'home' %}">Главная</a></li>
+        {% else %}
+        <li><a class="header_item" href="{% url 'home' %}">Главная</a></li>
+        {% endif %}
+        {% for item in categories %}
+            {% if item.pk == item_selected %}
+            <li><a class="selected header_item" href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+            {% else %}
+            <li><a class="header_item" href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>

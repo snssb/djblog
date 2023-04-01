@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Редакатировие страницы профиля
+{% endblock title %}
+
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock sidebar %}
+
+
+{% block content %}
+
+<div class="edit_profile_page">
+
+{% if user.is_authenticated %}
+    {% if user.id == profile.user.id %}
+    <h1>Редакатировие страницы профиля</h1>
+    <br><br>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+
+        <div class="form-error">{{ form.non_field_errors }}</div>
+
+        {% for f in form %}
+        <p><label class="form-label-e" for="{{ f.id_for_label }}">{{ f.label }}: </label>{{f}}</p>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+
+        {% if user.profile.user_gender == 'F' %}
+            <strong>Ж</strong>
+        {% elif user.profile.user_gender == 'M' %}
+            <strong>М</strong>
+        {% else %}
+            <strong>Н</strong>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary btn-block">Обновить страницу профиля</button>
+    </form>
+
+    {% else %}
+    Вы не являетесь необходимым пользователем для данной страницы..
+    {% endif %}
+
+{% else %}
+<div class="netprav">
+    Авторизируйтесь прежде чем просматривать данную страницу
+</div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}
+
+

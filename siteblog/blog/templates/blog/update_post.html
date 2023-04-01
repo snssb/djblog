@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Редактирование поста :: {{ block.super }}
+{% endblock title %}
+
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock sidebar %}
+
+
+{% block content %}
+
+{% if user.is_authenticated and user.id == post.author_l_id %}
+
+<div class="add_post">
+<h1>Редактирование поста</h1>
+
+
+<form action="{% url 'delete_post' post.id %}" method="post">
+    {% csrf_token %}
+
+<button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-block">Удалить пост</button>
+</form>
+
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.errors }}
+
+    {{ form.media }}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary btn-block">Применить изменения</button>
+</form>
+
+
+</div>
+
+{% else %}
+<div class="netprav">
+    Вы можете редактировать только свои посты
+</div>
+{% endif %}
+
+{% endblock %}
+
+

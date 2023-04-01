@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Добавление новости :: {{ block.super }}
+{% endblock title %} <!-- Переопределить title {{ title }}, Переопределить title и выводить title родительского класса {{ title }} ::(::-для красоты) {{ block.super }} -->
+
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock sidebar %}
+
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div class="add_post">
+<h1>Создание поста</h1>
+
+<form action="{% url 'add_post' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.media }}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary btn-block">Создать пост</button>
+</form>
+</div>
+
+{% else %}
+<div class="netprav">
+    Авторизируйтесь прежде чем просматривать данную страницу
+</div>
+{% endif %}
+
+{% endblock %}
+
+

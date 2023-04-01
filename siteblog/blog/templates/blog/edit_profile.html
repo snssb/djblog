@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sidebar %}
+
+{% if user.is_authenticated %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+
+<div class="edit_profile">
+<div class="m-center"><h1>Редактирование профиля</h1></div>
+<br>
+
+{#{{ user.profile.bio }}#}
+
+<form method="post">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><a href="{% url 'password' %}">Сменить пароль</a></p>
+    <button type="submit" class="btn btn-secondary">Обновить профиль</button>
+
+</form>
+</div>
+
+{% endblock %}
+
+{% else %}
+<div class="netprav">
+    Авторизируйтесь прежде чем просматривать данную страницу
+</div>
+
+{% endif %}

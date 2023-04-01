@@ -1,0 +1,1 @@
+[{"model": "blog.category", "pk": 1, "fields": {"title": "Развлекательное", "slug": "razvlekatelnoe"}}, {"model": "blog.category", "pk": 2, "fields": {"title": "Видеоигры", "slug": "videoigry"}}, {"model": "blog.category", "pk": 3, "fields": {"title": "Технологии", "slug": "tehnologii"}}, {"model": "blog.category", "pk": 4, "fields": {"title": "Еда", "slug": "eda"}}]

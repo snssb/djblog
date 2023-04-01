@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}  {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<section class="bg-text-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bg-text">
+                    <h3>Classic BLOG Design</h3>
+                    <p>1L1orem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="blog-post-area">
+    <div class="container">
+        <div class="row">
+            <div class="blog-post-area-style">
+
+                    {% for post in posts %}
+                    <div class="col-md-3">
+                        <div class="single-post">
+                            {{ post.photo.url }}
+                           <a href="{{ post.get_absolute_url }}">
+                            {% if post.photo %}
+                            <img src="{{ post.photo.url }}" alt="{{ post.title }}"
+                                 class="mr-3">
+                            {% else %}
+                            <img src="https://picsum.photos/id/1060/300/201/?blur=2"
+                                 alt="{{ post.title }}">
+                            {% endif %}
+
+                            <h3>{{ post.title }}</h3></a>
+
+                                {% if post.author_l %}
+                                <h4><span>От: <span class="author-name">
+                                {{ post.author_l }}</span></span></h4>
+                                {% endif %}
+
+                            <a href="{{ post.get_absolute_url }}">
+                            {{ post.content|striptags|truncatewords_html:20|safe }}
+                            <h4><span>{{ post.created_at|date:"j E Y" }}</span></h4></a>
+                        </div>
+                    </div>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <div class="pegination">
+        <div class="nav-links">
+
+            {% if page_obj.has_previous %}
+            <a class="page-numbers"
+               href="?page={{ page_obj.previous_page_number }}">
+                <i aria-hidden="true">&lt</i></a>
+            {% endif %}
+
+            {% for p in page_obj.paginator.page_range %}
+                {% if page_obj.number == p %}
+                <span class="page-numbers current">{{ p }}</span>
+                {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                <!-- Выводим по 2 страницы слева и справа -->
+                <a class="page-numbers" href="?page={{ p }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <a class="page-numbers" href="?page={{ page_obj.next_page_number }}">
+                <i aria-hidden="true">&gt</i></a>
+            {% endif %}
+
+        </div>
+    </div>
+    {% endif %}
+
+
+</section>
+
+{% endblock content %}

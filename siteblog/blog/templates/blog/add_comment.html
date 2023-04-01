@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sidebar %}
+
+{% block title %}Добавить комментарий{% endblock %}
+
+{% block content %}
+
+<div class="add_coment">
+{% if user.is_authenticated %}
+<div class="user_comment_page"><h1>Добавить комментарий</h1><br>
+    <form method="post">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-secondary">Добавить комментарий</button>
+
+    </form>
+</div>
+{% else %}
+    Авторизируйтесь прежде чем оставлять комментарии
+{% endif %}
+</div>
+{% endblock %}
