@@ -1,4 +1,7 @@
+import os
+
 from django.contrib.auth.models import User
+from django.core.files.base import ContentFile
 from django.test import TestCase
 from django.urls import reverse
 
@@ -16,8 +19,9 @@ class HomeListViewAndPaginateTest(TestCase):
 
         number_of_posts = 8
         for post_num in range(number_of_posts):
-            Post.objects.create(title='post %s' % post_num, slug='p0st %s' % post_num,
-                                category_id=1)
+            image_data = ContentFile("dummy data")
+            post = Post.objects.create(title='post %s' % post_num, slug='p0st %s' % post_num, category_id=1)
+            post.photo.save('image.jpg', image_data)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('')
@@ -29,6 +33,7 @@ class HomeListViewAndPaginateTest(TestCase):
 
     def test_view_uses_correct_template(self):
         resp = self.client.get(reverse('home'))
+        post = resp.context['object_list'][0]
         self.assertTemplateUsed(resp, 'blog/index.html')
 
     def test_pagination_is_six(self):
