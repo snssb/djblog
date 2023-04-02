@@ -19,10 +19,7 @@ from .templatetags.slugt import dj_slug
 
 
 def delete_post(request, pk):
-    print(222)
-    print(333, request, 4, pk, request.POST.get(pk))
     post = get_object_or_404(Post, pk=pk)
-    print(22, post, post.pk)
     if request.method == 'POST':
         post.delete()
         return redirect('home')

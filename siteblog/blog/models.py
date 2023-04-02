@@ -104,6 +104,11 @@ class Comment(models.Model):
         return self.name
 
 
-class AdvUser(models.Model):
-    is_activated = models.BooleanField(default=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Log(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    action = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.action
+
